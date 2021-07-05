@@ -107,8 +107,11 @@ namespace smime {
 
     void Smime::sign() {
         // Null-mailer or unknown
-        if (mailFrom.empty())
+        if (mailFrom.empty()) {
+            if (::debug)
+                std::cout << "mailFrom was empty" << std::endl;
             return;
+        }
 
         auto *client = util::mlfipriv(ctx);
         bool signedOrEncrypted = false;
@@ -136,6 +139,8 @@ namespace smime {
             std::string logmsg = "Message already signed or encrypted for ";
             logmsg += "email address <" + mailFrom + ">";
 
+            if (::debug)
+                std::cout << logmsg << std::endl;
             syslog(LOG_INFO, "%s", logmsg.c_str());
             return;
         }
@@ -151,10 +156,16 @@ namespace smime {
         auto cert = fs::path(email.getSmimeFilename<mapfile::Smime::CERT>());
         auto key = fs::path(email.getSmimeFilename<mapfile::Smime::KEY>());
 
-        if (!fs::exists(cert) && !fs::is_regular(cert))
+        if (!fs::exists(cert) && !fs::is_regular(cert)) {
+            if (::debug)
+                std::cout << "cert file does not exist or is not a regular file" << std::endl;
             return;
-        if (!fs::exists(key) && !fs::is_regular(key))
+        }
+        if (!fs::exists(key) && !fs::is_regular(key)) {
+            if (::debug)
+                std::cout << "key file does not exist or is not a regular file" << std::endl;
             return;
+        }
 
         /*
          * Signing starts here
