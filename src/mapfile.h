@@ -139,10 +139,15 @@ namespace mapfile {
             split(parts, src.at(pos), is_any_of(":"), token_compress_on);
             if (parts.size() != 2)
                 return;
-            if (component == Smime::CERT)
+            if (component == Smime::CERT) {
                 smimeCert = parts.at(1);
-            else
+                if (::debug)
+                    std::cout << "found cert filename in Sigh configuration: " << smimeCert << std::endl;
+            } else {
                 smimeKey = parts.at(1);
+                if (::debug)
+                    std::cout << "found key filename in Sigh configuration: " << smimeKey << std::endl;
+            }
         } else {
             if (pos == 1)
                 return;
