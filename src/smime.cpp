@@ -156,6 +156,8 @@ namespace smime {
         auto cert = fs::path(email.getSmimeFilename<mapfile::Smime::CERT>());
         auto key = fs::path(email.getSmimeFilename<mapfile::Smime::KEY>());
 
+        if (::debug)
+            std::cout << "cert file: " << cert << std::endl;
         if (!fs::exists(cert) && !fs::is_regular(cert)) {
             if (::debug)
                 std::cout << "cert file does not exist or is not a regular file: " << cert << std::endl;
