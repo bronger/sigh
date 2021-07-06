@@ -158,12 +158,12 @@ namespace smime {
 
         if (!fs::exists(cert) && !fs::is_regular(cert)) {
             if (::debug)
-                std::cout << "cert file does not exist or is not a regular file" << std::endl;
+                std::cout << "cert file does not exist or is not a regular file: " << cert << std::endl;
             return;
         }
         if (!fs::exists(key) && !fs::is_regular(key)) {
             if (::debug)
-                std::cout << "key file does not exist or is not a regular file" << std::endl;
+                std::cout << "key file does not exist or is not a regular file: " << key << std::endl;
             return;
         }
 
